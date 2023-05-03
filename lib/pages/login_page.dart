@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_parking/pages/dashboard_page.dart';
+import 'package:smart_parking/pages/main/dashboard_page.dart';
 
 import '../theme.dart';
 
