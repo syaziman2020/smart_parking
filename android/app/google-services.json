@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "949063013055",
+    "firebase_url": "https://smart-barrier-dbfea-default-rtdb.asia-southeast1.firebasedatabase.app",
     "project_id": "smart-barrier-dbfea",
     "storage_bucket": "smart-barrier-dbfea.appspot.com"
   },
@@ -29,6 +30,13 @@
             {
               "client_id": "949063013055-bgigr0mfj4l85l8lrp1k8m1trufkgo2l.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "949063013055-sue0k067m18eq4hm9d25n96hegv3ktkt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.smartParking"
+              }
             }
           ]
         }

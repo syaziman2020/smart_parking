@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:smart_parking/controllers/manage_controller.dart';
 import 'package:smart_parking/pages/main/dashboard_page.dart';
+import 'package:smart_parking/pages/main_page.dart';
 
 import '../theme.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
+
   final TextEditingController _emailController =
       TextEditingController(text: '');
+
   final TextEditingController _passController = TextEditingController(text: '');
+
+  final manageC = Get.find<ManageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -161,34 +168,36 @@ class LoginPage extends StatelessWidget {
           SizedBox(
             height: size.height / 15,
           ),
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => DashboardPage(),
+          Obx(() {
+            if (manageC.isLogin.isFalse) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+
+            return SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () {
+                  manageC.loginAcc(_emailController.text, _passController.text);
+                },
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30)),
+                  backgroundColor: blueCB,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: 12,
                   ),
-                );
-              },
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
                 ),
-                backgroundColor: blueCB,
-                padding: EdgeInsets.symmetric(
-                  vertical: 12,
+                child: Text(
+                  'Masuk',
+                  style: whiteTextStyle.copyWith(
+                    fontWeight: semiBold,
+                  ),
                 ),
               ),
-              child: Text(
-                'Masuk',
-                style: whiteTextStyle.copyWith(
-                  fontWeight: semiBold,
-                ),
-              ),
-            ),
-          ),
+            );
+          }),
           const SizedBox(
             height: 20,
           )

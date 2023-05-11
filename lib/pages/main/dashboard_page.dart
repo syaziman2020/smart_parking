@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:smart_parking/pages/login_page.dart';
 import 'package:smart_parking/theme.dart';
 
@@ -9,12 +10,12 @@ class DashboardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(
+      margin: const EdgeInsets.symmetric(
         horizontal: 20,
         vertical: 30,
       ),
       width: double.infinity,
-      padding: EdgeInsets.all(15),
+      padding: const EdgeInsets.all(15),
       decoration: BoxDecoration(
         color: whiteC,
         borderRadius: BorderRadius.circular(20),
@@ -41,8 +42,8 @@ class DashboardPage extends StatelessWidget {
             height: MediaQuery.of(context).size.height * 0.05,
           ),
           Container(
-            margin: EdgeInsets.only(bottom: 20),
-            padding: EdgeInsets.all(15),
+            margin: const EdgeInsets.only(bottom: 20),
+            padding: const EdgeInsets.all(15),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               gradient: LinearGradient(
@@ -77,7 +78,7 @@ class DashboardPage extends StatelessWidget {
                         textAlign: TextAlign.center,
                         style: greyTextStyle.copyWith(fontSize: 13),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextFormField(
                         textInputAction: TextInputAction.next,
                         keyboardType: TextInputType.name,
@@ -192,13 +193,13 @@ class DashboardPage extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Divider(
             color: blueCA,
           ),
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
           Align(
@@ -213,7 +214,9 @@ class DashboardPage extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: '08/03/2023',
+                    text: '${DateFormat('dd/MM/yyyy').format(
+                      DateTime.parse(DateTime.now().toString()),
+                    )}',
                     style: blackTextStyle.copyWith(
                       fontWeight: semiBold,
                     ),

@@ -2,13 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:smart_parking/theme.dart';
 
 class CardHistory extends StatelessWidget {
-  const CardHistory({super.key});
+  CardHistory({
+    super.key,
+    required this.date,
+    required this.time,
+    required this.name,
+  });
+
+  final String name;
+  final String date;
+  final String time;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 15),
-      padding: EdgeInsets.symmetric(
+      margin: const EdgeInsets.only(bottom: 15),
+      padding: const EdgeInsets.symmetric(
         horizontal: 15,
         vertical: 15,
       ),
@@ -36,18 +45,18 @@ class CardHistory extends StatelessWidget {
                 width: 10,
               ),
               Text(
-                'Uray Wijaya',
+                '$name',
                 style: blackTextStyle,
               ),
             ],
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Divider(
             color: blueCA.withOpacity(0.5),
           ),
-          SizedBox(
+          const SizedBox(
             height: 8,
           ),
           Row(
@@ -71,11 +80,11 @@ class CardHistory extends StatelessWidget {
                           fontSize: 10,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Text(
-                        '12/03/2023',
+                        '$date',
                         style: blackTextStyle.copyWith(fontSize: 13),
                       ),
                     ],
@@ -100,11 +109,11 @@ class CardHistory extends StatelessWidget {
                           fontSize: 10,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         height: 4,
                       ),
                       Text(
-                        '08:00',
+                        '$time',
                         style: blackTextStyle.copyWith(fontSize: 13),
                       ),
                     ],
