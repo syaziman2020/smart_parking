@@ -8,7 +8,7 @@ import 'package:smart_parking/widgets/card_history.dart';
 class HistoryPage extends StatelessWidget {
   HistoryPage({super.key});
 
-  final historyC = Get.find<HistoryController>();
+  final historyC = Get.put(HistoryController());
 
   @override
   Widget build(BuildContext context) {
@@ -31,6 +31,7 @@ class HistoryPage extends StatelessWidget {
             height: 20,
           ),
           Obx(() {
+            print(historyC.listHistory);
             if (historyC.isHistory.isFalse) {
               return Center(
                 child: CircularProgressIndicator(

@@ -4,7 +4,7 @@ class MyModel {
 
   MyModel({this.barrier, this.history});
 
-  MyModel.fromJson(Map<String, dynamic> json) {
+  MyModel.fromJson(Map<dynamic, dynamic> json) {
     barrier = json['barrier'];
     if (json['history'] != null) {
       history = <History>[];
@@ -14,7 +14,7 @@ class MyModel {
     }
   }
 
-  Map<String, dynamic> toJson() {
+  Map<dynamic, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['barrier'] = barrier;
     if (history != null) {

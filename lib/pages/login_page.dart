@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:smart_parking/controllers/manage_controller.dart';
+import 'package:smart_parking/controllers/widget_controller.dart';
 import 'package:smart_parking/pages/main/dashboard_page.dart';
 import 'package:smart_parking/pages/main_page.dart';
 
@@ -15,6 +16,7 @@ class LoginPage extends StatelessWidget {
   final TextEditingController _passController = TextEditingController(text: '');
 
   final manageC = Get.find<ManageController>();
+  final widgetC = Get.find<WidgetController>();
 
   @override
   Widget build(BuildContext context) {
@@ -121,57 +123,62 @@ class LoginPage extends StatelessWidget {
           ),
           SizedBox(
             width: double.infinity,
-            child: TextFormField(
-              controller: _passController,
-              obscureText: true,
-              keyboardType: TextInputType.visiblePassword,
-              textInputAction: TextInputAction.done,
-              cursorColor: blueCA,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    Icons.remove_red_eye_rounded,
-                    size: 23,
-                    color: greyC,
-                  ),
-                  onPressed: () {},
-                ),
-                contentPadding: const EdgeInsets.all(15),
-                hintText: 'Masukkan Password anda',
-                hintStyle: greyTextStyle.copyWith(
-                  fontSize: 13,
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    30,
-                  ),
-                  borderSide: BorderSide(color: blueCB),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(
-                    30,
-                  ),
-                  borderSide: BorderSide(color: blueCA),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(color: blueCA),
-                  borderRadius: BorderRadius.circular(30),
-                ),
-                focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: blueCA,
+            child: Obx(() => TextFormField(
+                  controller: _passController,
+                  obscureText: widgetC.visibility.value,
+                  keyboardType: TextInputType.visiblePassword,
+                  textInputAction: TextInputAction.done,
+                  cursorColor: blueCA,
+                  decoration: InputDecoration(
+                    suffixIcon: IconButton(
+                      icon: Icon(
+                        Icons.remove_red_eye_rounded,
+                        size: 23,
+                        color: greyC,
+                      ),
+                      onPressed: () {
+                        print('test vis');
+                        widgetC.obscureStatus();
+                      },
                     ),
-                    borderRadius: BorderRadius.circular(30)),
-              ),
-            ),
+                    contentPadding: const EdgeInsets.all(15),
+                    hintText: 'Masukkan Password anda',
+                    hintStyle: greyTextStyle.copyWith(
+                      fontSize: 13,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        30,
+                      ),
+                      borderSide: BorderSide(color: blueCB),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(
+                        30,
+                      ),
+                      borderSide: BorderSide(color: blueCA),
+                    ),
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: blueCA),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                          color: blueCA,
+                        ),
+                        borderRadius: BorderRadius.circular(30)),
+                  ),
+                )),
           ),
           SizedBox(
             height: size.height / 15,
           ),
           Obx(() {
             if (manageC.isLogin.isFalse) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  color: blueCA,
+                ),
               );
             }
 

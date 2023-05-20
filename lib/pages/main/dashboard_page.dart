@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:smart_parking/pages/login_page.dart';
+import 'package:smart_parking/controllers/manage_controller.dart';
 import 'package:smart_parking/theme.dart';
 
 class DashboardPage extends StatelessWidget {
-  const DashboardPage({super.key});
+  DashboardPage({super.key});
+
+  final manageC = Get.find<ManageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -41,157 +43,84 @@ class DashboardPage extends StatelessWidget {
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.05,
           ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 20),
-            padding: const EdgeInsets.all(15),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              gradient: LinearGradient(
-                colors: [
-                  blueCC.withOpacity(0.2),
-                  blueCC.withOpacity(0.5),
-                ],
-                begin: AlignmentDirectional.topStart,
-                end: AlignmentDirectional.bottomEnd,
-              ),
-            ),
-            child: IconButton(
-              highlightColor: Colors.transparent,
-              iconSize: MediaQuery.of(context).size.width * 0.4,
-              onPressed: () {
-                Get.defaultDialog(
-                  barrierDismissible: false,
-                  title: 'Masukkan nama pengunjung',
-                  titleStyle: blackTextStyle.copyWith(
-                      fontWeight: semiBold, fontSize: 14),
-                  titlePadding: const EdgeInsets.only(top: 15, bottom: 15),
-                  radius: 20,
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 15),
-                  content: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      Text(
-                        'Nama',
-                        textAlign: TextAlign.center,
-                        style: greyTextStyle.copyWith(fontSize: 13),
-                      ),
-                      const SizedBox(height: 5),
-                      TextFormField(
-                        textInputAction: TextInputAction.next,
-                        keyboardType: TextInputType.name,
-                        cursorColor: blueCA,
-                        decoration: InputDecoration(
-                          contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 8),
-                          hintText: 'Masukkan nama',
-                          hintStyle: greyTextStyle.copyWith(
-                            fontSize: 13,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              30,
-                            ),
-                            borderSide: BorderSide(color: blueCA),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(
-                              30,
-                            ),
-                            borderSide: BorderSide(color: blueCA),
-                          ),
-                          errorBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: blueCA),
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          focusedErrorBorder: OutlineInputBorder(
-                              borderSide: BorderSide(
-                                color: blueCA,
-                              ),
-                              borderRadius: BorderRadius.circular(30)),
+          Obx(() {
+            if (manageC.statusControl != null) {
+              return Container(
+                margin: const EdgeInsets.only(bottom: 20),
+                padding: const EdgeInsets.all(15),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: (manageC.statusControl.isTrue)
+                      ? LinearGradient(
+                          colors: [
+                            blueCC.withOpacity(0.2),
+                            blueCC.withOpacity(0.5),
+                          ],
+                          begin: AlignmentDirectional.topStart,
+                          end: AlignmentDirectional.bottomEnd,
+                        )
+                      : LinearGradient(
+                          colors: [
+                            Colors.red.withOpacity(0.2),
+                            Colors.red.withOpacity(0.2),
+                          ],
+                          begin: AlignmentDirectional.topStart,
+                          end: AlignmentDirectional.bottomEnd,
                         ),
-                      ),
-                      const SizedBox(
-                        height: 10,
+                ),
+                child: IconButton(
+                  highlightColor: Colors.transparent,
+                  iconSize: MediaQuery.of(context).size.width * 0.4,
+                  onPressed: () {
+                    manageC.updateStatus(manageC.statusControl.value);
+                  },
+                  icon: Icon(
+                    Icons.power_settings_new_rounded,
+                    color: (manageC.statusControl.isTrue) ? blueCA : Colors.red,
+                    shadows: [
+                      BoxShadow(
+                        color: blueCB.withOpacity(0.5),
+                        blurRadius: 40,
                       ),
                     ],
                   ),
-                  confirm: Container(
-                    margin: const EdgeInsets.only(bottom: 15),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      style: buttonStyle().copyWith(
-                        padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(vertical: 8),
-                        ),
-                      ),
-                      child: Text(
-                        'Yakin',
-                        style: whiteTextStyle.copyWith(
-                          fontWeight: semiBold,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
-                  ),
-                  cancel: Container(
-                    margin: const EdgeInsets.only(bottom: 15),
-                    child: ElevatedButton(
-                      onPressed: () {
-                        Get.back();
-                      },
-                      style: buttonStyle().copyWith(
-                        backgroundColor: MaterialStateProperty.all(greyC),
-                        padding: MaterialStateProperty.all(
-                          const EdgeInsets.symmetric(vertical: 8),
-                        ),
-                      ),
-                      child: Text(
-                        'Batal',
-                        style: whiteTextStyle.copyWith(
-                          fontWeight: semiBold,
-                          fontSize: 13,
-                        ),
-                      ),
-                    ),
+                ),
+              );
+            }
+            return SizedBox();
+          }),
+          Obx(
+            () {
+              if (manageC.loadingCon.isFalse) {
+                return Center(
+                  child: CircularProgressIndicator(
+                    color: blueCA,
                   ),
                 );
-              },
-              icon: Icon(
-                Icons.power_settings_new_rounded,
-                color: blueCA,
-                shadows: [
-                  BoxShadow(
-                    color: blueCB.withOpacity(0.5),
-                    blurRadius: 40,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          Text.rich(
-            TextSpan(
-              children: [
+              }
+              return Text.rich(
                 TextSpan(
-                  text: 'Status : ',
-                  style: greyTextStyle.copyWith(
-                    fontSize: 18,
-                    fontWeight: medium,
-                  ),
+                  children: [
+                    TextSpan(
+                      text: 'Status : ',
+                      style: greyTextStyle.copyWith(
+                        fontSize: 18,
+                        fontWeight: medium,
+                      ),
+                    ),
+                    TextSpan(
+                      text: (manageC.statusControl.value)
+                          ? 'Terbuka'
+                          : 'Tertutup',
+                      style: blackTextStyle.copyWith(
+                        fontWeight: semiBold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
                 ),
-                TextSpan(
-                  text: 'Tertutup',
-                  style: blackTextStyle.copyWith(
-                    fontWeight: semiBold,
-                    fontSize: 18,
-                  ),
-                ),
-              ],
-            ),
+              );
+            },
           ),
           const SizedBox(
             height: 20,

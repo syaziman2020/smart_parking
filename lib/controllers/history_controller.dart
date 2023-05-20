@@ -19,6 +19,7 @@ class HistoryController extends GetxController {
       isHistory(false);
       ManagementService.refDb.child('history').onValue.listen(
         (event) {
+          listHistory.clear();
           var snapshot = event.snapshot.value;
           List<dynamic> listData = snapshot as List;
           if (kDebugMode) {
@@ -34,9 +35,11 @@ class HistoryController extends GetxController {
               if (history != null) {
                 dateHistory.add(DateFormat('yyyy-MM-dd')
                     .format(DateTime.parse(history.datetime!)));
+                listHistory.add(history);
               }
-              listHistory.add(history);
             }
+
+            print('test list $listHistory');
 
             listHistory.sort((b, a) => DateTime.parse(a.datetime!)
                 .compareTo(DateTime.parse(b.datetime!)));
@@ -54,7 +57,6 @@ class HistoryController extends GetxController {
         statusHistory.isTrue;
       }
     } catch (e) {
-      rethrow;
       statusHistory.value = false;
     }
   }
@@ -63,5 +65,11 @@ class HistoryController extends GetxController {
   void onInit() {
     historyData();
     super.onInit();
+  }
+
+  @override
+  void dispose() {
+    historyData();
+    super.dispose();
   }
 }

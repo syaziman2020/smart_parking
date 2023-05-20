@@ -7,15 +7,10 @@ class ManagementService {
 
   Future<bool> updateStatus(
     bool value,
-    String name,
   ) async {
     try {
       await refDb.update({
         'barrier': !value,
-      });
-      await refDb.child('history').set({
-        "name": name,
-        "datetime": DateTime.now(),
       });
     } catch (e) {
       rethrow;

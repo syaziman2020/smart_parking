@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   final widgetC = Get.put(WidgetController());
   final manageC = Get.put(ManageController());
-  final historyC = Get.put(HistoryController());
+
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
