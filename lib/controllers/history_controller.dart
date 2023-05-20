@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -21,13 +23,25 @@ class HistoryController extends GetxController {
         (event) {
           listHistory.clear();
           var snapshot = event.snapshot.value;
-          List<dynamic> listData = snapshot as List;
-          if (kDebugMode) {
-            print('hello');
-          }
-          if (kDebugMode) {
-            print('ini snapshot ...  $snapshot');
-          }
+          Map<String, dynamic> historyMap = {};
+
+          (snapshot as Map).forEach((key, value) {
+            String stringKey = key.toString();
+
+            Map<String, dynamic> entry = {};
+            value.forEach((subKey, subValue) {
+              String stringSubKey = subKey.toString();
+              dynamic dynamicValue = subValue;
+
+              entry[stringSubKey] = dynamicValue;
+            });
+
+            historyMap[stringKey] = entry;
+          });
+
+          Map<String, dynamic> historyM = historyMap;
+
+          List<dynamic> listData = historyM.values.toList();
 
           if (snapshot != null) {
             for (var list in listData) {
@@ -38,8 +52,6 @@ class HistoryController extends GetxController {
                 listHistory.add(history);
               }
             }
-
-            print('test list $listHistory');
 
             listHistory.sort((b, a) => DateTime.parse(a.datetime!)
                 .compareTo(DateTime.parse(b.datetime!)));
@@ -52,7 +64,7 @@ class HistoryController extends GetxController {
       );
 
       isHistory(true);
-      print(listHistory);
+
       if (isHistory.isTrue) {
         statusHistory.isTrue;
       }

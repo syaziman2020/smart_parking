@@ -31,7 +31,6 @@ class HistoryPage extends StatelessWidget {
             height: 20,
           ),
           Obx(() {
-            print(historyC.listHistory);
             if (historyC.isHistory.isFalse) {
               return Center(
                 child: CircularProgressIndicator(

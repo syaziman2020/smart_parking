@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:smart_parking/controllers/history_controller.dart';
 import 'package:smart_parking/controllers/manage_controller.dart';
 import 'package:smart_parking/theme.dart';
 
