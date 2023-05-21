@@ -39,9 +39,7 @@ class HistoryController extends GetxController {
             historyMap[stringKey] = entry;
           });
 
-          Map<String, dynamic> historyM = historyMap;
-
-          List<dynamic> listData = historyM.values.toList();
+          List<dynamic> listData = historyMap.values.toList();
 
           if (snapshot != null) {
             for (var list in listData) {

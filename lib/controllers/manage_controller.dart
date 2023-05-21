@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:smart_parking/models/my_model.dart';
+import 'package:smart_parking/pages/login_page.dart';
 import 'package:smart_parking/pages/main_page.dart';
 import 'package:smart_parking/services/auth_service.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,9 @@ class ManageController extends GetxController {
   RxBool statusCon = true.obs;
   RxBool loadingCon = true.obs;
   RxBool statusControl = false.obs;
+  RxString emailC = ''.obs;
+  RxBool isLoadingOut = true.obs;
+  RxBool isLogout = true.obs;
 
   void loginAcc(String email, String pass) async {
     try {
@@ -82,6 +86,7 @@ class ManageController extends GetxController {
       if (result == true) {
         isLogin.value = true;
         statusLogin.value = true;
+        emailC(email);
         if (statusLogin.isTrue) {
           Get.off(() => MainPage());
         }
@@ -378,6 +383,72 @@ class ManageController extends GetxController {
             onPressed: () {
               loadingCon.value = true;
 
+              Get.back();
+            },
+            style: buttonStyle().copyWith(
+              padding: MaterialStateProperty.all(
+                const EdgeInsets.symmetric(vertical: 10),
+              ),
+              shape: MaterialStateProperty.all(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
+            ),
+            child: Text(
+              'Oke!!',
+              style: whiteTextStyle.copyWith(
+                fontWeight: semiBold,
+                fontSize: 13,
+              ),
+            ),
+          ),
+        ),
+      );
+    }
+  }
+
+  void logOut() async {
+    try {
+      isLoadingOut(false);
+      await AuthService().signOut();
+      print('berhasil logout');
+      isLoadingOut(true);
+      if (isLoadingOut.isTrue) {
+        Get.offAll(() => LoginPage());
+      }
+    } catch (e) {
+      errorMessage('Silakan periksa kembali koneksi internet anda');
+
+      Get.defaultDialog(
+        barrierDismissible: false,
+        title: 'Terjadi Kesalahan',
+        titleStyle: blackTextStyle.copyWith(fontWeight: semiBold, fontSize: 18),
+        titlePadding: const EdgeInsets.only(top: 15, bottom: 20),
+        radius: 10,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 22),
+        content: Column(
+          children: [
+            const Icon(
+              Icons.error_outline,
+              color: Colors.red,
+              size: 50,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              '$errorMessage',
+              textAlign: TextAlign.center,
+              style: greyTextStyle.copyWith(fontSize: 13),
+            ),
+          ],
+        ),
+        confirm: Container(
+          margin: const EdgeInsets.only(bottom: 15),
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: () {
               Get.back();
             },
             style: buttonStyle().copyWith(

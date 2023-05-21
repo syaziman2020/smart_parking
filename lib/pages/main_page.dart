@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:smart_parking/controllers/manage_controller.dart';
 import 'package:smart_parking/controllers/widget_controller.dart';
 import 'package:smart_parking/pages/login_page.dart';
 import 'package:smart_parking/pages/main/dashboard_page.dart';
@@ -11,6 +12,7 @@ class MainPage extends StatelessWidget {
   MainPage({super.key});
 
   final widgetC = Get.find<WidgetController>();
+  final manageC = Get.find<ManageController>();
 
   @override
   Widget build(BuildContext context) {
@@ -30,26 +32,33 @@ class MainPage extends StatelessWidget {
         automaticallyImplyLeading: false,
         elevation: 0,
         backgroundColor: Colors.transparent,
-        title: Text(
-          'Welcome Uray',
-          style: blackTextStyle.copyWith(
-            fontWeight: semiBold,
-            fontSize: 20,
-          ),
-        ),
+        title: Obx(() => Text(
+              '${manageC.emailC}',
+              style: blackTextStyle.copyWith(
+                fontWeight: semiBold,
+                fontSize: 20,
+              ),
+            )),
         actions: [
-          IconButton(
-            color: blackC,
-            onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => LoginPage()),
-                  (route) => false);
-            },
-            icon: const Icon(
-              Icons.logout,
-            ),
-          )
+          Obx(() {
+            if (manageC.isLoadingOut.isFalse) {
+              return Center(
+                child: CircularProgressIndicator(
+                  color: blueCB,
+                ),
+              );
+            }
+
+            return IconButton(
+              color: blackC,
+              onPressed: () {
+                manageC.logOut();
+              },
+              icon: const Icon(
+                Icons.logout,
+              ),
+            );
+          }),
         ],
         bottom: PreferredSize(
           preferredSize: const Size.fromHeight(3),
